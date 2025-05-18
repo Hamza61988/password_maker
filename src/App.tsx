@@ -14,7 +14,6 @@ function App() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [reentered, setReentered] = useState("");
 
-
   const [banana, setBanana] = useState(false);
   const [no123, setNo123] = useState(false);
   const [upperVowel, setUpperVowel] = useState(false);
@@ -27,7 +26,7 @@ function App() {
   const [unicorn, setUnicorn] = useState(false);
 
   const messageBoxStyle =
-    "w-[400px] h-[80px] flex items-center justify-center text-center px-6 py-4 rounded-xl shadow-md transition-all duration-300";
+    "w-full sm:w-[450px] px-6 py-4 my-2 rounded-xl shadow-md transition-all duration-300 animate-fadeIn";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -47,10 +46,8 @@ function App() {
     setMinute(inputValue.includes(String(minutes)));
     setDate(inputValue.includes(String(todayDate)));
 
-    const pas = "password";
-    setPassword(inputValue.toLowerCase().includes(pas)); // FIXED
+    setPassword(inputValue.toLowerCase().includes("password"));
 
-    // Funny validations
     setBanana(inputValue.toLowerCase().includes("banana"));
     setNo123(!inputValue.includes("123"));
     setUpperVowel(/[AEIOU]/.test(inputValue));
@@ -90,8 +87,8 @@ function App() {
   const handleSubmit = () => {
     if (confirmPassword === reentered) {
       confetti({
-        particleCount: 550,
-        spread: 5000,
+        particleCount: 400,
+        spread: 170,
         origin: { y: 0.6 },
       });
      
@@ -101,123 +98,92 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-900 min-h-screen">
-      <div className="flex-col gap-5 text-2xl flex justify-center text-center items-center pt-10">
-        <h4 className="text-white">Create a Password</h4>
+    <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black min-h-screen flex items-center justify-center p-4">
+      <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-xl w-full max-w-3xl p-8 shadow-2xl text-white font-sans">
+        <div className="text-center text-3xl font-bold mb-8">🔐 Create Your Ultimate Password</div>
+
         <input
           type="text"
-          className="text-gray-900 p-6 rounded"
-          placeholder="Type your password"
+          className="w-full p-4 text-black rounded-md mb-6 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          placeholder="Type your password..."
           onChange={handleChange}
         />
 
-      
-        {isUserTyping && showWarning && (
-          <div className={`bg-yellow-100 border border-yellow-400 text-yellow-800 ${messageBoxStyle}`}>
-            ⚠️ Password too short!
-          </div>
-        )}
-        {isUserTyping && letter && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            🔠 First letter should be capital.
-          </div>
-        )}
-        {isUserTyping && !hasNumber && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            🔢 Password should contain at least one number.
-          </div>
-        )}
-        {isUserTyping && !special && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            ✳️ Password should contain at least one special character.
-          </div>
-        )}
-        {isUserTyping && !minute && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            ⏰ Password should contain the current minute!
-          </div>
-        )}
-        {isUserTyping && !date && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            📅 Password should contain today's date.
-          </div>
-        )}
-        {isUserTyping && firstletter && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            🅰️ Password's first letter should not be a number or symbol.
-          </div>
-        )}
-        {isUserTyping && !password && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            ❌ Password must include the word "password".
-          </div>
-        )}
+        {/* Validation Messages */}
+        <div className="flex flex-col items-center">
+          {isUserTyping && showWarning && (
+            <div className={`bg-yellow-200 text-yellow-900 ${messageBoxStyle}`}>⚠️ Password too short!</div>
+          )}
+          {isUserTyping && letter && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>🔠 First letter should be capital.</div>
+          )}
+          {isUserTyping && !hasNumber && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>🔢 Include at least one number.</div>
+          )}
+          {isUserTyping && !special && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>✳️ Add a special character.</div>
+          )}
+          {isUserTyping && !minute && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>⏰ Include the current minute.</div>
+          )}
+          {isUserTyping && !date && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>📅 Include today's date.</div>
+          )}
+          {isUserTyping && firstletter && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>
+              🅰️ First character must be a letter.
+            </div>
+          )}
+          {isUserTyping && !password && (
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>🔑 Include the word "password".</div>
+          )}
 
-        {/* Funny Conditions */}
-        {isUserTyping && !banana && (
-          <div className={`bg-purple-100 border border-purple-400 text-purple-700 ${messageBoxStyle}`}>
-            🍌 Must include the word "banana".
-          </div>
-        )}
-        {isUserTyping && !no123 && (
-          <div className={`bg-pink-100 border border-pink-400 text-pink-700 ${messageBoxStyle}`}>
-            🚫 Must not contain "123".
-          </div>
-        )}
-        {isUserTyping && !upperVowel && (
-          <div className={`bg-indigo-100 border border-indigo-400 text-indigo-700 ${messageBoxStyle}`}>
-            🗣️ Must contain at least one uppercase vowel (A, E, I, O, U).
-          </div>
-        )}
-        {isUserTyping && !doubleBang && (
-          <div className={`bg-yellow-100 border border-yellow-400 text-yellow-700 ${messageBoxStyle}`}>
-            ❗ Must include "!" at least twice.
-          </div>
-        )}
-        {isUserTyping && !love && (
-          <div className={`bg-red-100 border border-red-400 text-red-700 ${messageBoxStyle}`}>
-            ❤️ Must contain the word "love".
-          </div>
-        )}
-        {isUserTyping && !emoji && (
-          <div className={`bg-green-100 border border-green-400 text-green-700 ${messageBoxStyle}`}>
-            😜 Must include at least one emoji.
-          </div>
-        )}
-        {isUserTyping && !palindrome && (
-          <div className={`bg-gray-100 border border-gray-400 text-gray-700 ${messageBoxStyle}`}>
-            🪞 Must have a palindrome like "madam" or "lol".
-          </div>
-        )}
-        {isUserTyping && !notEndNumber && (
-          <div className={`bg-blue-100 border border-blue-400 text-blue-700 ${messageBoxStyle}`}>
-            🔚 Must not end with a number.
-          </div>
-        )}
-        {isUserTyping && !repeatChar && (
-          <div className={`bg-orange-100 border border-orange-400 text-orange-700 ${messageBoxStyle}`}>
-            ♻️ Must have a repeated lowercase letter like "ss", "tt".
-          </div>
-        )}
-        {isUserTyping && !unicorn && (
-          <div className={`bg-fuchsia-100 border border-fuchsia-400 text-fuchsia-700 ${messageBoxStyle}`}>
-            🦄 Must include the word "unicorn".
-          </div>
-        )}
+          {/* Fun conditions */}
+          {isUserTyping && !banana && (
+            <div className={`bg-purple-200 text-purple-900 ${messageBoxStyle}`}>🍌 Add "banana".</div>
+          )}
+          {isUserTyping && !no123 && (
+            <div className={`bg-pink-200 text-pink-900 ${messageBoxStyle}`}>🚫 Don't include "123".</div>
+          )}
+          {isUserTyping && !upperVowel && (
+            <div className={`bg-indigo-200 text-indigo-900 ${messageBoxStyle}`}>🗣 Use an uppercase vowel.</div>
+          )}
+          {isUserTyping && !doubleBang && (
+            <div className={`bg-yellow-200 text-yellow-900 ${messageBoxStyle}`}>❗ Use "!" at least twice.</div>
+          )}
+          {isUserTyping && !love && (
+            <div className={`bg-red-100 text-red-800 ${messageBoxStyle}`}>❤️ Add some "love".</div>
+          )}
+          {isUserTyping && !emoji && (
+            <div className={`bg-green-100 text-green-800 ${messageBoxStyle}`}>😜 Add an emoji.</div>
+          )}
+          {isUserTyping && !palindrome && (
+            <div className={`bg-gray-200 text-gray-800 ${messageBoxStyle}`}>🪞 Add a palindrome (like "abba").</div>
+          )}
+          {isUserTyping && !notEndNumber && (
+            <div className={`bg-blue-100 text-blue-900 ${messageBoxStyle}`}>🔚 Don't end with a number.</div>
+          )}
+          {isUserTyping && !repeatChar && (
+            <div className={`bg-orange-200 text-orange-900 ${messageBoxStyle}`}>♻️ Use repeated lowercase letters.</div>
+          )}
+          {isUserTyping && !unicorn && (
+            <div className={`bg-fuchsia-200 text-fuchsia-900 ${messageBoxStyle}`}>🦄 Include "unicorn".</div>
+          )}
+        </div>
 
         {/* Final Step */}
         {allValid && (
-          <div className="flex flex-col items-center gap-4 pt-4">
+          <div className="mt-8 flex flex-col gap-4 items-center animate-fadeIn">
             <input
               type="text"
-              className="text-gray-900 p-4 rounded"
-              placeholder="Type it again"
+              className="w-full p-4 text-black rounded-md mb-6 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              placeholder="Re-enter your password"
               value={reentered}
               onChange={(e) => setReentered(e.target.value)}
             />
             <button
               onClick={handleSubmit}
-              className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded shadow transition"
+              className="bg-green-500 hover:bg-green-600 text-white text-lg px-6 py-3 rounded-md transition shadow-lg"
             >
               ✅ Submit
             </button>
