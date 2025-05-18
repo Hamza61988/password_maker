@@ -26,7 +26,7 @@ function App() {
   const [unicorn, setUnicorn] = useState(false);
 
   const messageBoxStyle =
-    "w-full sm:w-[450px] px-6 py-4 my-2 rounded-xl shadow-md transition-all duration-300 animate-fadeIn";
+    "w-full px-4 py-3 my-2 rounded-xl shadow-md transition-all duration-300 animate-fadeIn text-sm sm:text-base break-words";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -91,20 +91,21 @@ function App() {
         spread: 170,
         origin: { y: 0.6 },
       });
-     
     } else {
       alert("❌ Passwords do not match!");
     }
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-xl w-full max-w-3xl p-8 shadow-2xl text-white font-sans">
-        <div className="text-center text-3xl font-bold mb-8">🔐 Create Your Ultimate Password</div>
+    <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black min-h-screen flex items-center justify-center p-4 sm:p-6">
+      <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-xl w-full max-w-2xl p-6 sm:p-8 shadow-2xl text-white font-sans">
+        <div className="text-center text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">
+          🔐 Create Your Ultimate Password
+        </div>
 
         <input
           type="text"
-          className="w-full p-4 text-black rounded-md mb-6 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          className="w-full p-3 sm:p-4 text-black rounded-md mb-6 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-sm sm:text-base"
           placeholder="Type your password..."
           onChange={handleChange}
         />
@@ -130,15 +131,11 @@ function App() {
             <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>📅 Include today's date.</div>
           )}
           {isUserTyping && firstletter && (
-            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>
-              🅰️ First character must be a letter.
-            </div>
+            <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>🅰️ First character must be a letter.</div>
           )}
           {isUserTyping && !password && (
             <div className={`bg-red-200 text-red-900 ${messageBoxStyle}`}>🔑 Include the word "password".</div>
           )}
-
-          {/* Fun conditions */}
           {isUserTyping && !banana && (
             <div className={`bg-purple-200 text-purple-900 ${messageBoxStyle}`}>🍌 Add "banana".</div>
           )}
@@ -173,17 +170,17 @@ function App() {
 
         {/* Final Step */}
         {allValid && (
-          <div className="mt-8 flex flex-col gap-4 items-center animate-fadeIn">
+          <div className="mt-6 sm:mt-8 flex flex-col gap-4 items-center animate-fadeIn">
             <input
               type="text"
-              className="w-full p-4 text-black rounded-md mb-6 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="w-full p-3 sm:p-4 text-black rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-sm sm:text-base"
               placeholder="Re-enter your password"
               value={reentered}
               onChange={(e) => setReentered(e.target.value)}
             />
             <button
               onClick={handleSubmit}
-              className="bg-green-500 hover:bg-green-600 text-white text-lg px-6 py-3 rounded-md transition shadow-lg"
+              className="bg-green-500 hover:bg-green-600 text-white text-sm sm:text-lg px-6 py-3 rounded-md transition shadow-lg"
             >
               ✅ Submit
             </button>
